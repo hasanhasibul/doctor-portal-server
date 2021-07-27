@@ -74,7 +74,9 @@ client.connect(err => {
       }
       doctorsCollection.insertOne({ name, email, image })
         .then(resultDoctor => {
-          res.send(resultDoctor.insertedCount > 0)
+          if(resultDoctor){
+            res.send(resultDoctor.insertedCount > 0)
+          }
     });
   })
 
