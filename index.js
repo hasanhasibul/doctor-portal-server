@@ -2,21 +2,16 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const fileUpload = require('express-fileUpload');
-const fs = require('fs-extra');
 require('dotenv').config();
 
 app.use(bodyParser.json());
 app.use(cors());
-app.use(fileUpload());
-
-app.use(express.static('doctors'));
 
 // Mongodb Connection Method 
 const uriString = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.ezexp.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 
 const MongoClient = require('mongodb').MongoClient;
-const { readFileSync } = require('fs-extra');
+
 const uri = uriString;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect(err => {
@@ -67,14 +62,6 @@ client.connect(err => {
     const name = req.body.name;
     const email = req.body.email;
     const file = req.files.file;
-    // const filePath = `${__dirname}/doctors/${file.name}`;
-    // console.log("name is " + name, email, file);
-    // file.mv(filePath, err => {
-    //   if (err) {
-    //     console.log(err);
-    //     res.status(500).send("something is wrong ");
-    //   }
-    //   // res.send({ name: file.name, path: `/${file.name}` });
       const newImg = req.files.file.data;
       const encImg = newImg.toString('base64');
       const image = {
