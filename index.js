@@ -114,4 +114,4 @@ client.connect(err => {
 });
 
 
-app.listen(5000, () => { console.log("Listing port 5000") })
+app.listen(process.env.PORT || 5000)
