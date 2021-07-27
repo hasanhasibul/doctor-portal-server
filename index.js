@@ -3,10 +3,11 @@ const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 require('dotenv').config();
+const fileUpload = require('express-fileupload');
 
 app.use(bodyParser.json());
 app.use(cors());
-
+app.use(fileUpload());
 // Mongodb Connection Method 
 const uriString = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.ezexp.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 
@@ -63,7 +64,9 @@ client.connect(err => {
     const email = req.body.email;
     const file = req.files.file;
       const newImg = req.files.file.data;
+      console.log(newImg);
       const encImg = newImg.toString('base64');
+
       const image = {
         contentType: req.files.file.mimetype,
         size: req.files.file.size,
